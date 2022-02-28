@@ -36,5 +36,34 @@ exports.signup = (req, res, next) => {
 
 // Login
 exports.login = (req, res, next) => {
-  
+  const email = req.body.email;
+  const password = req.body.password;
+  dbConnection.query(
+    'SELECT * FROM users WHERE email = ?', email,(error, results) => {
+      if(error) {
+        console.log(error);
+        res.json({ error });
+      }else{
+        if(results == 0) {
+          return res.status(404).json({error: 'User not found'});
+        }
+          bcrypt
+            .compare(password, results[0].password)
+            .then(valid => {
+              if (!valid) {
+                return res.status(401).json({ error: 'Password incorrect !' });
+              }
+              res.status(200).json({
+                userId: results[0].id,
+                token: jwt.sign(
+                    { userId: results[0].id },
+                    'RANDOM_TOKEN_SECRET',
+                    { expiresIn: '24h' }
+                )
+              });
+            })
+            .catch(error => res.status(500).json({ error }));
+      }
+    }
+  )
 }
