@@ -13,12 +13,12 @@
 
       <div class="login__form__input">
         <label for="email"></label>
-        <input type="text" id="email" placeholder="Email" required>
+        <input type="text" v-model="email" id="email" placeholder="Email" required>
       </div>
 
       <div class="login__form__input">
         <label for="password"></label>
-        <input type="password" id="password" placeholder="Password" required>
+        <input type="password" v-model="password" id="password" placeholder="Password" required>
       </div>
 
       <button class="login__form__btn" @click.prevent="login" type="submit">Connect</button>
@@ -29,7 +29,7 @@
 
 
 <script>
-  //import axios from 'axios';
+  import axios from 'axios';
   
   export default {
     name: 'LoginForm',
@@ -42,7 +42,7 @@
         }
       },
 
-    /**methods: {
+    methods: {
       login() {
         const payload = {
             email: this.email,
@@ -51,18 +51,18 @@
           axios
             .post('http://localhost:3000/api/auth/', payload)
             .then(res => {
-              //let data = res.data;
-              //this.data = alert(
-                "Connected !"
+              let data = res.data;
+              this.data = alert(
+                "Connected !" + data.email
               );
-              //window.location.href='/'
+              window.location.href='/'
             })
             .catch(error => {
               console.log('Error with connection' + error)
             })
           
         }
-      }*/
+      }
     }
   
 </script>
