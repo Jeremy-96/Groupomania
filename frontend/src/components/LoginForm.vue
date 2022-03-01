@@ -21,7 +21,7 @@
         <input type="password" id="password" placeholder="Password" required>
       </div>
 
-      <button class="login__form__btn" type="submit">Connect</button>
+      <button class="login__form__btn" @click.prevent="login" type="submit">Connect</button>
 
     </form>
   </div>
@@ -29,9 +29,42 @@
 
 
 <script>
-    export default {
-        name: 'LoginForm',
+  //import axios from 'axios';
+  
+  export default {
+    name: 'LoginForm',
+
+    data() {
+        return{
+          email: "",
+          password: "",
+          msg:  "",
+        }
+      },
+
+    /**methods: {
+      login() {
+        const payload = {
+            email: this.email,
+            password: this.password
+          }
+          axios
+            .post('http://localhost:3000/api/auth/', payload)
+            .then(res => {
+              //let data = res.data;
+              //this.data = alert(
+                "Connected !"
+              );
+              //window.location.href='/'
+            })
+            .catch(error => {
+              console.log('Error with connection' + error)
+            })
+          
+        }
+      }*/
     }
+  
 </script>
 
 <style scoped lang="scss">

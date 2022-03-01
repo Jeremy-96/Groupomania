@@ -1,23 +1,21 @@
 /**
- * Set the users controller
+ * Set the users controllers
+ * Signup
+ * Login
  */
 const dbConnection = require('../db_connect');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // Signup
 exports.signup = (req, res, next) => {
+  const { firstname, lastname, email, password } = req.body;
   bcrypt
-    .hash(req.body.password, 10)                                        // On appelle la fonction de hachage, on créer un nouvel utilisateur, on le sauvegarde dans la BDD
-    .then(hash => {
-      const user = {
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        password: hash
-      }
-      console.log(user);
-
+    .hash(req.body.password, 10)                                        
+    .then((hash) => {
+      const user = new User(firstname, lastname, email, hash);
+      
       dbConnection.query(
         'INSERT INTO users SET ?', user, (error, results) => {
           if(error) {
@@ -28,16 +26,14 @@ exports.signup = (req, res, next) => {
             res.status(201).json({ message: 'User created !'  })
           }
         }
-      )
+      );
     })
     .catch(error => res.status(500).json({ error }));
 }
 
-
 // Login
 exports.login = (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password } = req.body;
   dbConnection.query(
     'SELECT * FROM users WHERE email = ?', email,(error, results) => {
       if(error) {
