@@ -1,15 +1,9 @@
 <template>
   <div class="login">
-
+    
     <img class="login__img" src="../assets/images/logo.svg" alt="Groupomania logo" />
 
-    <nav class="login__nav">
-      <router-link to="/signup">Signup</router-link>
-    </nav>
-
     <form class="login__form"> 
-
-      <h2 class="login__form__title">We are happy to see you again !</h2>
 
       <div class="login__form__input">
         <label for="email"></label>
@@ -21,9 +15,17 @@
         <input type="password" v-model="password" id="password" placeholder="Password" required>
       </div>
 
-      <button class="login__form__btn" @click.prevent="login" type="submit">Connect</button>
+      <button class="login__form__btn" @click.prevent="login" type="submit" accesskey="enter">Connect</button>
+
+      <div v-if="msg" role="alert" class="login__form__alert">
+        <em>{{ msg  }}</em>
+      </div>
 
     </form>
+
+    <nav class="login__nav">
+      <p><em>No account ?</em> <router-link to="/signup">Signup</router-link></p>
+    </nav>
   </div>
 </template>
 
@@ -47,20 +49,18 @@
         const payload = {
             email: this.email,
             password: this.password
-          }
-          axios
-            .post('http://localhost:3000/api/auth/', payload)
-            .then(res => {
-              let data = res.data;
-              this.data = alert(
-                "Connected !" + data.email
-              );
-              window.location.href='/'
-            })
-            .catch(error => {
-              console.log('Error with connection' + error)
-            })
-          
+        }
+        axios
+          .post('http://localhost:3000/api/auth/login', payload)
+          .then((res) => {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("userId", res.data.userId);
+            localStorage.setItem("admin", res.data.admin);
+            this.$router.push("/post");
+          })
+          .catch(() => {
+            (this.msg = "Please fill in the fields !")
+          })
         }
       }
     }
@@ -69,55 +69,31 @@
 
 <style scoped lang="scss">
 .login {
-  max-width:600px;
+  padding:0;
+  margin:0;
+  max-width:500px;
   height:800px;
   display:flex;
   flex-flow: column wrap;
   align-items:center;
   justify-content: space-around;
-  border-radius:20px;
-  background-color:rgb(255, 255, 255);
+  border:3px solid;
+  border-color: rgb(35,50,75);
+  border-radius:25px;
   &__img {
-    display:flex;
-    flex-wrap: wrap;
     width:90%;
-    height:20%;
-  }
-  &__nav {
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    width:90%;
-    height:10%;
-    a {
-      font-size: 22px;
-      font-weight: bold;
-      color:rgb(0, 0, 0);
-      text-decoration: none;
-      &.router-link-exact-active {
-        color: rgb(196,58,72);
-      }
-    }
+    height:30%;
   }
   &__form {
     width:90%;
-    height:65%;
+    height:50%;
     display:flex;
     flex-flow:column wrap;
     align-items:center;
     justify-content:space-between;
-    &__title {
-      width:100%;
-      height:15%;
-      margin:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color: rgb(80, 80, 80);
-    }
     &__input {
       width:100%;
-      height:12%;
+      height:12.5%;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -125,27 +101,61 @@
         width:100%;
         height:100%;
         padding:0;
-        text-align: center;;
-        border-radius:15px;
+        text-align: center;
+        color: rgb(35,50,75);
+        background-color:rgba(208, 208, 208, 0);
+        border:none;
+        border-bottom: 2px solid;
+        border-color:rgb(35,50,75);
         font-size: 20px;
+        &:focus {
+          outline:none;
+        }
+        &:focus::placeholder {
+          color:transparent;
+        }
       }
     }
     &__btn {
       width:100%;
-      height:12%;
+      height:15%;
+      margin-top:30px;
       display:flex;
       align-items:center;
       justify-content: center;
       flex-wrap: wrap;
       border-radius:15px;
       font-size: 20px;
-      background-color: rgb(196,58,72);
+      background-color: rgb(35,50,75);
+      border:none;
       color: white;
       &:hover {
         cursor:pointer;
-        color:black;
-        background-color:rgba(196,58,72, .6);
-        border:2px solid black;
+        background-color:rgb(214,26,13);
+        transform:scale(1.05);
+      }
+    }
+    &__alert {
+      color:rgb(214,26,13);
+      font-size:bold;
+      font-size:20px;
+    }
+  }
+  &__nav {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width:90%;
+    height:10%;
+    p {
+      font-size:18px;
+    }
+    a {
+      font-size: 18px;
+      font-weight: bold;
+      color:rgb(214, 26, 13);
+      &:hover {
+        color: rgb(35,50,75);
       }
     }
   }

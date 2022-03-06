@@ -5,11 +5,17 @@
 </template>
 
 <style lang="scss">
-#app {
+body{
   display:flex;
-  flex-direction: column;
-  align-items: center;
+  align-items:center;
   justify-content: center;
-  font-family: Arial, Helvetica, sans-serif, Helvetica, Arial, sans-serif;
+  background-color:rgba(208, 208, 208, 0.2);
+  #app {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif, Helvetica, Arial, sans-serif;
+  }
 }
 </style>

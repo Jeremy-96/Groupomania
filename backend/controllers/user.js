@@ -10,11 +10,11 @@ const jwt = require('jsonwebtoken');
 
 // Signup
 exports.signup = (req, res, next) => {
-  const { firstname, lastname, email, password } = req.body;
+  const { firstname, lastname, email, password, admin } = req.body;
   bcrypt
     .hash(req.body.password, 10)                                        
     .then((hash) => {
-      const user = new User(firstname, lastname, email, hash);
+      const user = new User(firstname, lastname, email, hash, admin);
       
       dbConnection.query(
         'INSERT INTO users SET ?', user, (error, results) => {
@@ -33,7 +33,7 @@ exports.signup = (req, res, next) => {
 
 // Login
 exports.login = (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, admin } = req.body;
   dbConnection.query(
     'SELECT * FROM users WHERE email = ?', email,(error, results) => {
       if(error) {
@@ -50,6 +50,7 @@ exports.login = (req, res, next) => {
                 return res.status(401).json({ error: 'Password incorrect !' });
               }
               res.status(200).json({
+                admin: results[0].admin,
                 userId: results[0].id,
                 token: jwt.sign(
                     { userId: results[0].id },

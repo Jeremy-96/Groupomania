@@ -8,6 +8,6 @@ const userCtrl = require('../controllers/user');
 const passwordValidator = require('../middleware/passwordVal');
 
 router.post('/signup', passwordValidator, userCtrl.signup);
-router.post('/', passwordValidator, userCtrl.login);
+router.post('/login', userCtrl.login);
 
 module.exports = router;

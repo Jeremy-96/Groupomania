@@ -6,6 +6,8 @@ const nocache = require('nocache');
 
 
 const userRoutes = require('./routes/user');
+//const postsRoutes = require('./routes/posts');
+
 
 
 const dbConnection = require('./db_connect');
@@ -63,6 +65,7 @@ app.use(cors());
 
 
  app.use('/api/auth', userRoutes);
+ //app.use('/api/posts', postsRoutes);
 
  
 module.exports = app;

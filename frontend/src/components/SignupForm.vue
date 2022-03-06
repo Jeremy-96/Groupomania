@@ -2,14 +2,7 @@
   <div class="signup">
     <img class="signup__img" src="../assets/images/logo.svg" alt="Groupomania logo" />
 
-    <nav class="signup__nav">
-      <router-link to="/">Login</router-link> |
-      <router-link to="/signup">Signup</router-link>
-    </nav>
-
     <form class="signup__form"> 
-      
-      <h2 class="signup__form__title">Would you like to create an account ?</h2>
 
       <div class="signup__form__input">
         <label for="firstname"></label>
@@ -31,9 +24,17 @@
         <input type="password" v-model="password" id="password" placeholder="Password" required>
       </div>
 
-      <button  class="signup__form__btn" @click.prevent="signup" type="button">Create account !</button>
+      <button  class="signup__form__btn" @click.prevent="signup" type="button" accesskey="enter">Create account !</button>
+      
+      <div v-if="msg" role="alert" class="signup__form__alert">
+        <em>{{ msg  }}</em>
+      </div>
 
     </form>
+
+    <nav class="signup__nav">
+      <p><em>Already have an account ?</em> <router-link to="/">Login</router-link></p>
+    </nav>
 
   </div>
 </template>
@@ -63,19 +64,24 @@
             email: this.email,
             password: this.password
           }
+          if(
+            this.firstname != "" ||
+            this.lastname != "" ||
+            this.email != "" ||
+            this.password != ""
+          )
           axios
             .post('http://localhost:3000/api/auth/signup', payload)
             .then(res => {
               let data = res.data;
               this.data = alert(
-              "User " + data.firstname + " was registered !"
+              "User " + data.this.firstname + " was registered !"
               );
               window.location.href='/'
             })
-            .catch(error => {
-              console.log('Error: User not created' + error)
-            })
-          
+            .catch(() => {
+              (this.msg = "Please fill in the fields !")
+            } )
         }
       }
   }      
@@ -83,86 +89,92 @@
 
 
 <style scoped lang="scss">
-.signup {
-  max-width:600px;
-  height:800px;
-  display:flex;
-  flex-flow: column wrap;
-  align-items:center;
-  justify-content: space-around;
-  border-radius:20px;
-  background-color:rgb(255, 255, 255);
-  &__img {
+  .signup {
+    max-width:500px;
+    height:800px;
     display:flex;
-    flex-wrap: wrap;
-    width:90%;
-    height:20%;
-  }
-  &__nav {
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    width:90%;
-    height:10%;
-    a {
-      font-size: 22px;
-      font-weight: bold;
-      color:rgb(0, 0, 0);
-      text-decoration: none;
-      &.router-link-exact-active {
-        color: rgb(196,58,72);
-      }
-    }
-  }
-  &__form {
-    width:90%;
-    height:65%;
-    display:flex;
-    flex-flow:column wrap;
+    flex-flow: column wrap;
     align-items:center;
-    justify-content:space-between;
-    &__title {
-      width:100%;
-      height:15%;
-      margin:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color: rgb(80, 80, 80);
+    justify-content: space-around;
+    border:3px solid;
+    border-color: rgb(35,50,75);
+    border-radius:25px;
+    &__img {
+      width:90%;
+      height:30%;
     }
-    &__input {
-      width:100%;
-      height:12%;
+    &__form {
+      width:90%;
+      height:50%;
       display:flex;
+      flex-flow:column wrap;
       align-items:center;
-      justify-content:center;
-      input {
+      justify-content:space-between;
+      &__input {
         width:100%;
-        height:100%;
-        padding:0;
-        text-align: center;;
+        height:12.5%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        input {
+          width:100%;
+          height:100%;
+          padding:0;
+          text-align: center;
+          color: rgb(35,50,75);
+          background-color:rgba(208, 208, 208, 0);
+          border:none;
+          border-bottom: 2px solid;
+          border-color:rgb(35,50,75);
+          font-size: 20px;
+          &:focus {
+            outline:none;
+          }
+          &:focus::placeholder {
+            color:transparent;
+          }
+        }
+      }
+      &__btn {
+        width:100%;
+        height:15%;
+        margin-top:30px;
+        display:flex;
+        align-items:center;
+        justify-content: center;
+        flex-wrap: wrap;
         border-radius:15px;
         font-size: 20px;
+        background-color: rgb(35,50,75);
+        border:none;
+        color: white;
+        &:hover {
+          cursor:pointer;
+          background-color:rgb(214,26,13);
+          transform:scale(1.05);
+        }
+      }
+      &__alert {
+        color:rgb(214,26,13);
+        font-size:bold;
+        font-size:20px;
       }
     }
-    &__btn {
-      width:100%;
-      height:12%;
+    &__nav {
       display:flex;
-      align-items:center;
+      align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
-      border-radius:15px;
-      font-size: 20px;
-      background-color: rgb(196,58,72);
-      color: white;
-      &:hover {
-        cursor:pointer;
-        color:black;
-        background-color:rgba(196,58,72, .6);
-        border:2px solid black;
+      width:90%;
+      height:10%;
+      p {
+        font-size:18px;
+      }
+      a {
+        font-size: 18px;
+        font-weight: bold;
+        color:rgb(214,26,13);
+        text-decoration: none;
       }
     }
   }
-}
 </style>
