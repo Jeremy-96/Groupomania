@@ -2,6 +2,8 @@
  * Set the users controllers
  * Signup
  * Login
+ * Get one user
+ * Delete user account
  */
 const dbConnection = require('../db_connect');
 const User = require('../models/User');
@@ -31,6 +33,7 @@ exports.signup = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 }
 
+
 // Login
 exports.login = (req, res, next) => {
   const { email, password, admin } = req.body;
@@ -51,9 +54,9 @@ exports.login = (req, res, next) => {
               }
               res.status(200).json({
                 admin: results[0].admin,
-                userId: results[0].id,
+                userId: results[0]._id,
                 token: jwt.sign(
-                    { userId: results[0].id },
+                    { userId: results[0]._id },
                     'RANDOM_TOKEN_SECRET',
                     { expiresIn: '24h' }
                 )
@@ -61,6 +64,32 @@ exports.login = (req, res, next) => {
             })
             .catch(error => res.status(500).json({ error }));
       }
+    }
+  )
+}
+
+// Get one user 
+exports.getOneUser = (req, res, next) => {
+  dbConnection.query(
+    `SELECT * FROM users WHERE _id = ${req.params.id}`, (error, results) => {
+      if(error) {
+        return res.status(400).json({ error });
+      }
+      console.log(results)
+      return res.status(200).json(results);
+    }
+  )
+}
+
+// Delete user account
+exports.deleteUser = (req, res, next) => {
+  dbConnection.query(
+    `DELETE FROM users WHERE _id = ${req.params.id}`, (error, results) => {
+      if(error) {
+        return res.status(400).json({ error });
+      }
+      console.log('User account successfully deleted !');
+      return res.status(200).json(results);
     }
   )
 }

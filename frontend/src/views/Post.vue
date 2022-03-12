@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar/>
+    <AddPost/>
     <Content/>
     <Footer/>
   </div>
@@ -9,6 +10,7 @@
 
 <script>
   import Navbar from '@/components/Navbar.vue'
+  import AddPost from '@/components/AddPost'
   import Content from '@/components/Content.vue'
   import Footer from '@/components/Footer.vue'
 
@@ -17,6 +19,7 @@
     name: 'Post',
     components: {
       Navbar,
+      AddPost,
       Content,
       Footer
     }

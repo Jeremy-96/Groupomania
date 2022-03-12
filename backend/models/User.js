@@ -7,7 +7,7 @@ class User {
     this.lastname = lastname,
     this.email = email,
     this.password = password,
-    this.admin = admin
+    this.admin = 0
   }
 };
 

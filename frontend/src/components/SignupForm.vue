@@ -26,8 +26,8 @@
 
       <button  class="signup__form__btn" @click.prevent="signup" type="button" accesskey="enter">Create account !</button>
       
-      <div v-if="msg" role="alert" class="signup__form__alert">
-        <em>{{ msg  }}</em>
+      <div v-if="error" role="alert" class="signup__form__alert">
+        <em>{{ error  }}</em>
       </div>
 
     </form>
@@ -52,7 +52,7 @@
           lastname: "",
           email: "",
           password: "",
-          msg:  "",
+          error:  "",
         }
       },
 
@@ -72,15 +72,11 @@
           )
           axios
             .post('http://localhost:3000/api/auth/signup', payload)
-            .then(res => {
-              let data = res.data;
-              this.data = alert(
-              "User " + data.this.firstname + " was registered !"
-              );
-              window.location.href='/'
+            .then(() => {
+              alert("Your account was created");
             })
             .catch(() => {
-              (this.msg = "Please fill in the fields !")
+              (this.error = "Please fill in the fields !");
             } )
         }
       }
@@ -155,7 +151,18 @@
         }
       }
       &__alert {
+        background-color:rgba(214,26,13, 0.1);
+        border-top: 1px solid red;
+        border-bottom: 1px solid red;
         color:rgb(214,26,13);
+        font-size:bold;
+        font-size:20px;
+      }
+      &__info {
+        background-color:rgba(58, 238, 142, 0.1);
+        border-top: 1px solid green;
+        border-bottom: 1px solid green;
+        color:green;
         font-size:bold;
         font-size:20px;
       }

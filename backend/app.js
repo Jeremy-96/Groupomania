@@ -51,7 +51,6 @@ app.use(cors());
  * CSP 
  * Hsts(Strict-Transport-Security)
  */
-
  app.use(helmet.hidePoweredBy(),
  helmet.xssFilter(),
  helmet.frameguard({ action: 'deny' }),

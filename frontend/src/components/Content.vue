@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    
+
 
   </div>
 </template>
@@ -11,6 +11,7 @@
   export default {
     name: 'Content'
   }
+
 </script>
 
 
@@ -22,7 +23,6 @@
     flex-direction:column;
     justify-content: space-between;
     align-items:center;
-    border:1px solid black;
+    border:2px solid black;
   }
-
 </style>

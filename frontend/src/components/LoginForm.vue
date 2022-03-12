@@ -17,8 +17,8 @@
 
       <button class="login__form__btn" @click.prevent="login" type="submit" accesskey="enter">Connect</button>
 
-      <div v-if="msg" role="alert" class="login__form__alert">
-        <em>{{ msg  }}</em>
+      <div v-if="error" role="alert" class="login__form__alert">
+        <em> {{ error  }} </em>
       </div>
 
     </form>
@@ -40,7 +40,7 @@
         return{
           email: "",
           password: "",
-          msg:  "",
+          error:  "",
         }
       },
 
@@ -59,7 +59,7 @@
             this.$router.push("/post");
           })
           .catch(() => {
-            (this.msg = "Please fill in the fields !")
+            (this.error = "Please fill in the fields !")
           })
         }
       }
@@ -136,8 +136,11 @@
       }
     }
     &__alert {
+      background-color:rgba(214,26,13, 0.1);
+      border-top: 1px solid red;
+      border-bottom: 1px solid red;
       color:rgb(214,26,13);
-      font-size:bold;
+      font-weight:bold;
       font-size:20px;
     }
   }
