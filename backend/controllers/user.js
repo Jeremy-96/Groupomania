@@ -24,7 +24,6 @@ exports.signup = (req, res, next) => {
             console.log(error);
             res.status(400).json({ error });
           }else {
-            console.log(results);
             res.status(201).json({ message: 'User created !'  })
           }
         }
@@ -75,8 +74,20 @@ exports.getOneUser = (req, res, next) => {
       if(error) {
         return res.status(400).json({ error });
       }
-      console.log(results)
       return res.status(200).json(results);
+    }
+  )
+}
+
+// Get all users (for admin account)
+exports.getAllUsers = (req, res, next) => {
+  dbConnection.query(
+    `SELECT * FROM users WHERE admin = 0`, (error, results) => {
+      if(error) {
+        return res.status(400).json({ error });
+      }
+      console.log(results);
+      res.status(200).json(results);
     }
   )
 }

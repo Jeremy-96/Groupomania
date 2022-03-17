@@ -2,8 +2,9 @@
  * Create Post model
  */
 class Post {
-  constructor(userId, imageUrl, content) {
+  constructor(userId, title, imageUrl, content) {
     this.userId = userId,
+    this.title = title,
     this.imageUrl = imageUrl,
     this.content = content
   }

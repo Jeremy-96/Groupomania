@@ -157,6 +157,7 @@
       font-size: 18px;
       font-weight: bold;
       color:rgb(214, 26, 13);
+      text-decoration: none;
       &:hover {
         color: rgb(35,50,75);
       }
