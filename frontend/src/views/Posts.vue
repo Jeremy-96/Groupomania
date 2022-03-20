@@ -16,7 +16,7 @@
 
 
   export default {
-    name: 'Post',
+    name: 'Posts',
     components: {
       Navbar,
       AddPost,

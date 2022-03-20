@@ -79,14 +79,13 @@ exports.getOneUser = (req, res, next) => {
   )
 }
 
-// Get all users (for admin account)
+// Get all users
 exports.getAllUsers = (req, res, next) => {
   dbConnection.query(
     `SELECT * FROM users WHERE admin = 0`, (error, results) => {
       if(error) {
         return res.status(400).json({ error });
       }
-      console.log(results);
       res.status(200).json(results);
     }
   )

@@ -14,7 +14,7 @@
           <h4 class="email">Email :</h4>
           <em>{{ user.email }}</em>
         </div>
-        <button @click.prevent="deleteAccount" class="user__btn">Delete</button>
+        <button  @click.prevent="deleteAccount" class="user__btn">Delete</button>
       </article> 
     </div>
   </div>
@@ -30,19 +30,20 @@
     data() {
       return{
         users: [],
-        userAdmin: {
+        user: {
           id: localStorage.getItem("userId"),
           token: localStorage.getItem("token"),
           admin: localStorage.getItem("admin"),
+          password:"",
         }
       }
     },
 
     created() {
       axios
-        .get(`http://localhost:3000/api/auth/${this.userAdmin.id}/users`,{
+        .get(`http://localhost:3000/api/auth/${this.user.id}/users`,{
           headers: {
-            Authorization: 'Bearer ' + this.userAdmin.token,
+            "Authorization": `Bearer ${this.user.token}`,
             "Content-Type": "application/json",
           },
         })
@@ -57,7 +58,7 @@
     methods: {
       deleteAccount() {
         axios
-          .delete(`http://localhost:3000/api/auth/${this.userAdmin.id}/users`, {
+          .delete(`http://localhost:3000/api/auth/${this.userAdmin.id}/users/${this.user.id}`, {
             headers: {
               "Authorization" : "Bearer " + this.token,
             },

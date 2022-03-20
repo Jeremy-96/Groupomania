@@ -16,9 +16,14 @@ const routes = [
     component: () => import('../views/Signup.vue')
   },
   {
-    path: '/post',
-    name: 'Post',
-    component: () => import('../views/Post.vue')
+    path: '/posts',
+    name: 'Posts',
+    component: () => import('../views/Posts.vue')
+  },
+  {
+    path: '/comment',
+    name: 'Comment',
+    component: () => import('../views/Comment.vue')
   },
   {
     path: '/account',
@@ -30,6 +35,7 @@ const routes = [
     name: 'Admin',
     component: () => import('../views/Admin.vue')
   },
+  
 ]
 
 const router = new VueRouter({

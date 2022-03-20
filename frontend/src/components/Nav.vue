@@ -2,7 +2,7 @@
   <div class="nav">
     <img class="nav__img" src="../assets/images/logo.svg" alt="Groupomania logo">
     <nav>
-      <router-link to="/post">Home</router-link> 
+      <router-link to="/posts">Home</router-link> 
     </nav>
   </div>
 </template>

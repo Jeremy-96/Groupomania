@@ -1,7 +1,7 @@
 <template>
   <form class="addPost">
     <input v-model="title" class="addPost__title" placeholder="Title">
-    <input id="imageUrl" name="imageUrl" type="file" accept="img/gif" class="addPost__img">
+    <input id="addPost__img" name="img" type="file" @change="onSelectedFile" accept="image/*" class="addPost__img">
     <input type="text" v-model="content" class="addPost__text" placeholder="Type your text" required>
 
     <button @click.prevent="addpost" class="addPost__btn" type="submit">Add post</button>
@@ -25,19 +25,22 @@
       }
     },
     methods: {
+      onSelectedFile(event) {
+        this.imageUrl = event.target.files[0];
+      },
       addpost() {
-        const payload = {
-          userId: parseInt(this.userId),
-          title: this.title,
-          imageUrl: document.getElementById("imageUrl").files[0],
-          content: this.content,
-        }
-        var formData = new FormData()
-        formData.append('img', this.imageUrl)
-        console.log(payload);
+        const formData = new FormData()
+        formData.append('userId', parseInt(this.userId))
+        formData.append('title', this.title)
+        if(this.imageUrl == "") {
+          formData.append('image', this.imageUrl)
+        }formData.append('image', this.imageUrl)
+        
+        formData.append('content', this.content)
+
         if(this.content != "" && this.title != "")  
         axios
-            .post('http://localhost:3000/api/posts', payload, {
+            .post('http://localhost:3000/api/posts', formData, {
               headers: {
                 "Authorization": `Bearer ${this.token}`,
                 "Content-Type": "application/json",
@@ -62,7 +65,7 @@
   .addPost {
     width:100%;
     height:auto;
-    margin:0 0 30px 0;
+    margin:50px 0 50px 0;
     display:flex;
     flex-flow: row wrap;
     justify-content: space-around;

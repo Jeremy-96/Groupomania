@@ -56,7 +56,7 @@
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("userId", res.data.userId);
             localStorage.setItem("admin", res.data.admin);
-            this.$router.push("/post");
+            this.$router.push("/posts");
           })
           .catch(() => {
             (this.error = "Please fill in the fields !")
