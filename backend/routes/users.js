@@ -12,7 +12,8 @@ const passwordValidator = require('../middleware/passwordVal');
 router.post('/signup', passwordValidator, userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.get('/:id', auth, userCtrl.getOneUser);
-router.get('/:id/users', auth, userCtrl.getAllUsers);
+router.put('/:id', auth, userCtrl.updateUser);
+router.get('/:id/users/', auth, userCtrl.getAllUsers);
 router.delete('/:id', auth, userCtrl.deleteUser);
 
 module.exports = router;

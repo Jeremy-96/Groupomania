@@ -65,25 +65,35 @@ exports.getOnePost = (req, res, next) => {
         console.log(error);
         return res.status(400).json(error);
       }
-      //console.log(req.params.id);
+      console.log(req.params.id);
       console.log(results);
+      console.log(req.params.id)
       return res.status(200).json(results);
     }
   )
 }
 
 /**
- * Controler for delete post
+ * Controller for update post
+ */
+exports.updatePost = (req, res, next) => {
+  
+}
+
+/**
+ * Controller for delete post
  */
 exports.deletePost = (req, res, next) => {
+  // delete image from project directory
   dbConnection.query(
-    `SELECT * FROM posts WHERE userId = ${req.body.id}`, (error, results) => {
+    `DELETE FROM posts WHERE _id = ${req.params.id}`, (error, results) => {
       if(error) {
-        console.log(error);
         return res.status(400).json(error);
       }
-      console.log(results);
-
+      dbConnection.query(
+        `DELETE FROM comments WHERE postId = ${req.params.id}`
+      )
+      return res.status(200).json(results);
     }
   )
 }

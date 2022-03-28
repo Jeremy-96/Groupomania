@@ -17,7 +17,7 @@ exports.signup = (req, res, next) => {
     .hash(req.body.password, 10)                                        
     .then((hash) => {
       const user = new User(firstname, lastname, email, hash, admin);
-      
+      console.log(req.body);
       dbConnection.query(
         'INSERT INTO users SET ?', user, (error, results) => {
           if(error) {
@@ -82,14 +82,32 @@ exports.getOneUser = (req, res, next) => {
 // Get all users
 exports.getAllUsers = (req, res, next) => {
   dbConnection.query(
-    `SELECT * FROM users WHERE admin = 0`, (error, results) => {
+    `SELECT * FROM users`, (error, results) => {
       if(error) {
         return res.status(400).json({ error });
       }
       res.status(200).json(results);
     }
   )
-}
+};
+
+// Update user
+exports.updateUser = (req,res,next) => {
+  dbConnection.query (
+    `UPDATE users 
+    SET firstname = 'firstname',
+        lastname = 'lastname'
+    WHERE _id = ${req.params.id}`,
+    (error, results) => {
+      if(error) {
+        console.log(error);
+        return res.status(400).json({ error });
+      }
+      console.log("Your informations has changed");
+      return res.status(201).json(results);
+    }
+  )
+};
 
 // Delete user account
 exports.deleteUser = (req, res, next) => {
@@ -102,4 +120,4 @@ exports.deleteUser = (req, res, next) => {
       return res.status(200).json(results);
     }
   )
-}
+};

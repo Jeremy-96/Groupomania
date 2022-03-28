@@ -8,6 +8,7 @@ const nocache = require('nocache');
 
 const userRoutes = require('./routes/users');
 const postsRoutes = require('./routes/posts');
+const commentsRoutes = require('./routes/comments')
 
 
 
@@ -63,9 +64,10 @@ app.use(cors());
  
 
 
- app.use('/images', express.static(path.join(__dirname, '../images')));
+ app.use('/images', express.static(path.join(__dirname, 'images')));
  app.use('/api/auth', userRoutes);
  app.use('/api/posts', postsRoutes);
+ app.use('/api/comments', commentsRoutes);
 
  
 module.exports = app;

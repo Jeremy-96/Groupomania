@@ -1,20 +1,26 @@
 <template>
   <div class="content">
-    <div v-for="(post, j) in posts" :key="j" class="posts" id="posts">
+    <h2 class="allposts">All posts</h2>
+    <div v-for="(post,key) of posts" :key="key" class="posts" id="posts">
       <article class="post">
-        <h4 class="post__title">
-          {{  post.userId }} + {{ post.title }} 
-        </h4>
+        <div class="post__infos">
+          <h3 class="post__infos__id">
+            {{ post._id }} :
+          </h3>
+          <h3 class="post__infos__title">
+            <em>{{ post.title }} </em>
+          </h3>
+        </div>
 
         <div class="post__img">
-          IMAGE
+          <img v-if="post.imageUrl" :src="post.imageUrl" alt="Image of the post">
         </div>
 
         <div class="post__content">
-          <em>{{ post.content }}</em>
+          {{ post.content }}
         </div>
 
-        <router-link class="post__comment" to="/comment">Comment</router-link>
+        <button @click.prevent="getThePost(post._id)" class="post__btn">View the post</button>
       </article>
     </div>
   </div>
@@ -28,18 +34,23 @@
   
     data() {
       return{
+        userId: localStorage.getItem("userId"),
+        imagePreview: null,
         users:[],
+        replaceUsers:[],
         user: {
           id: localStorage.getItem("userId"),
+          admin: localStorage.getItem("admin"),
           token: localStorage.getItem("token"),
-          admin: localStorage.getItem("admin")
         },
         posts: [],
         post: {},
+        postId: "",
+        content:"",
       }
     },
-    created() {
-        axios
+    async created() {
+        await axios
           .get(`http://localhost:3000/api/posts`,{
             headers: {
               "Authorization": `Bearer ${this.user.token}`,
@@ -48,23 +59,55 @@
           })
           .then((response) => {
             this.posts = response.data;
+            localStorage.removeItem('postId');
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+        
+        await axios
+          .get(`http://localhost:3000/api/auth/${this.user.id}/users`, {
+            headers: {
+              "Authorization": `Bearer ${this.user.token}`,
+              "Content-Type": "application/json"
+            }
+          })
+          .then((response) => {
+            this.users = response.data;
           })
           .catch((error) => {
             console.log(error);
           })
     },
+    methods: {
+      getThePost(idPost) {
+        localStorage.setItem("postId", idPost);
+        this.$router.push("/comment");
+      }
+    }
   }
 
 </script>
 
 
-<style lang="scss">
+<style scoped lang="scss">
   .content{
     width:1200px;
     display:flex;
     flex-direction:column;
     justify-content: space-between;
     align-items:center;
+    .allposts {
+      width:100%;
+      height:50px;
+      display:flex;
+      align-items:center;
+      justify-content: center;
+      background-color: rgba(214,26,13, 0.35);
+      color:rgb(35,50,75);
+      border-top:2px solid rgb(214,26,13);
+      border-bottom:2px solid rgb(214,26,13);
+    }
     .posts {
       width:100%;
       display:flex;
@@ -80,14 +123,26 @@
       justify-content: space-around;
       flex-wrap:wrap;
       align-items:center;
-      &__title {
+      background-color:rgba(35,50,75, 0.1);
+      &__infos {
         width:100%;
         height:40px;
-        margin:25px 0 25px 0;
-        border:1px solid rgb(35,50,75);
+        margin:0 0 25px 0;
+        border-radius: 20px 20px 0 0;
+        border-bottom:2px solid rgb(35,50,75);
         display:flex;
         align-items:center;
-        justify-content: center;
+        justify-content: space-around;
+        background-color:rgba(35,50,75, 0.1);
+        &__id {
+          width:15%;
+          text-align:center;
+          color:rgb(214,26,13);
+        }
+        &__title {
+          width:80%;
+          color:rgb(35,50,75);
+        }
       }
       &__img {
         width:15%;
@@ -95,31 +150,42 @@
         display:flex;
         align-items:center;
         justify-content: center;
+        img {
+          width:100%;
+          height:100%;
+          border-radius:20px;
+        }
       }
       &__content {
         width:80%;
         height:100px;
         display:flex;
-        justify-content: flex-start;
-        border:1px solid black;
+        align-items:center;
+        justify-content: center;
+        border-radius:20px;
+        font-size:20px;
+        color:rgb(35,50,75);
+        background-color:rgba(35,50,75, 0.1);
       }
-      &__comment {
+      &__btn {
         width:100%;
         height:40px;
         display:flex;
         align-items:center;
-        justify-content: center;
+        justify-content:center;
+        margin-top:30px;
+        border:none;
         text-decoration:none;
-        margin:25px 0 0 0;
+        border-radius:20px;
         font-size:18px;
-        font-weight:bold;
         background-color:rgb(35,50,75);
         color:white;
         &:hover {
           cursor:pointer;
-          transform:scale(1.03);
+          background-color:rgba(35,50,75, 0.01);
+          color:rgb(35,50,75);
+          border:2px solid rgb(35,50,75);
         }
-        
       }
     }
   }

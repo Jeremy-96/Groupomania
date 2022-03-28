@@ -1,7 +1,7 @@
 <template>
   <form class="addPost">
     <input v-model="title" class="addPost__title" placeholder="Title">
-    <input id="addPost__img" name="img" type="file" @change="onSelectedFile" accept="image/*" class="addPost__img">
+    <input id="addPost__img" name="image" type="file" @change="onSelectedFile" accept="image/*" class="addPost__img">
     <input type="text" v-model="content" class="addPost__text" placeholder="Type your text" required>
 
     <button @click.prevent="addpost" class="addPost__btn" type="submit">Add post</button>
@@ -21,22 +21,22 @@
         userId: localStorage.getItem("userId"),
         title:"",
         imageUrl:"",
+        imagePreview: null,
         content:"",
       }
     },
+
     methods: {
       onSelectedFile(event) {
         this.imageUrl = event.target.files[0];
+        this.imagePreview = URL.createObjectURL(this.imageUrl)
       },
       addpost() {
-        const formData = new FormData()
-        formData.append('userId', parseInt(this.userId))
-        formData.append('title', this.title)
-        if(this.imageUrl == "") {
-          formData.append('image', this.imageUrl)
-        }formData.append('image', this.imageUrl)
-        
-        formData.append('content', this.content)
+        const formData = new FormData();
+        formData.append('userId', parseInt(this.userId));
+        formData.append('title', this.title);
+        formData.append('image', this.imageUrl);
+        formData.append('content', this.content);
 
         if(this.content != "" && this.title != "")  
         axios

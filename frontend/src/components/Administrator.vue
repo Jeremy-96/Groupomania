@@ -14,7 +14,13 @@
           <h4 class="email">Email :</h4>
           <em>{{ user.email }}</em>
         </div>
-        <button  @click.prevent="deleteAccount" class="user__btn">Delete</button>
+        <div class="user__id">
+          <h4 class="id">Id :</h4>
+          <em>{{ user._id }}</em>
+        </div>
+        <button @click.prevent="deleteAccount(user._id)" class="user__btn">
+          Delete
+        </button>
       </article> 
     </div>
   </div>
@@ -29,21 +35,20 @@
 
     data() {
       return{
+        userId: localStorage.getItem("userId"),
         users: [],
-        user: {
-          id: localStorage.getItem("userId"),
+        userAdmin: {
           token: localStorage.getItem("token"),
           admin: localStorage.getItem("admin"),
-          password:"",
         }
       }
     },
 
     created() {
       axios
-        .get(`http://localhost:3000/api/auth/${this.user.id}/users`,{
+        .get(`http://localhost:3000/api/auth/${this.userId}/users`,{
           headers: {
-            "Authorization": `Bearer ${this.user.token}`,
+            "Authorization": `Bearer ${this.userAdmin.token}`,
             "Content-Type": "application/json",
           },
         })
@@ -56,16 +61,18 @@
     },
 
     methods: {
-      deleteAccount() {
+      deleteAccount(idUser) {
         axios
-          .delete(`http://localhost:3000/api/auth/${this.userAdmin.id}/users/${this.user.id}`, {
+          .delete(`http://localhost:3000/api/auth/${idUser}`, {
             headers: {
-              "Authorization" : "Bearer " + this.token,
-            },
+              "Authorization": `Bearer ${this.userAdmin.token}`,
+              "Content-Type": "application/json"
+            }
           })
-          .then(() => {
-            alert("Account deleted");
-            location.reload();
+          .then((response) => {
+            console.log(response);
+            alert(`User nr ${idUser} deleted !`)
+            window.location.reload();
           })
           .catch((error) => {
             console.log(error);
@@ -76,7 +83,7 @@
 </script>
 
 
-<style lang="scss">
+<style scoped lang="scss">
  .bloc {
     width:100%;
     height:auto;
@@ -118,20 +125,21 @@
           height:90%;
           border-right:1px solid rgb(35,50,75);
         }
+        &__id {
+          width:10%;
+        }
         &__btn {
-          width:15%;
-          height:50%;
+          width:10%;
+          height:40px;
           border:none;
           border-radius:20px;
-          font-size:18px;
           color:white;
           background-color:rgb(214,26,13);
           &:hover {
             cursor:pointer;
-            background-color:rgba(214,26,13, 0.5);
-            border:2px solid rgb(35,50,75);
-            font-weight: bolder;
-            color: rgb(35,50,75);
+            color:rgb(214,26,13);
+            background-color:rgba(214,26,13, 0.01);
+            border:2px solid rgb(214,26,13);
           }
         }
       }
