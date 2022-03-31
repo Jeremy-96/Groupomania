@@ -65,9 +65,6 @@ exports.getOnePost = (req, res, next) => {
         console.log(error);
         return res.status(400).json(error);
       }
-      console.log(req.params.id);
-      console.log(results);
-      console.log(req.params.id)
       return res.status(200).json(results);
     }
   )
@@ -77,23 +74,38 @@ exports.getOnePost = (req, res, next) => {
  * Controller for update post
  */
 exports.updatePost = (req, res, next) => {
-  
+  dbConnection.query(
+    `UPDATE posts SET title='${req.body.title}', content='${req.body.content}' WHERE _id=${req.params.id}`, (error, results) => {
+      if(error) {
+        console.log(error);
+        return res.status(400).json(error);
+      }
+      console.log("Modified");
+      return res.status(201).json(results);
+    }
+  )
 }
 
 /**
  * Controller for delete post
  */
 exports.deletePost = (req, res, next) => {
-  // delete image from project directory
-  dbConnection.query(
-    `DELETE FROM posts WHERE _id = ${req.params.id}`, (error, results) => {
-      if(error) {
-        return res.status(400).json(error);
+  const imageUrl = dbConnection.query(`SELECT imageUrl FROM posts WHERE _id = ${req.params.id}`);
+  const filename = imageUrl.split('/images/')[1];
+  
+  fs.unlink(`images/${filename}`, () => {
+    dbConnection.query(
+      `DELETE FROM posts WHERE _id = ${req.params.id}`, (error, results) => {
+        if(error) {
+          return res.status(400).json(error);
+        }
+        
+
+        dbConnection.query(
+          `DELETE FROM comments WHERE postId = ${req.params.id}`
+        )
+        return res.status(200).json(results);
       }
-      dbConnection.query(
-        `DELETE FROM comments WHERE postId = ${req.params.id}`
-      )
-      return res.status(200).json(results);
-    }
-  )
+    )
+  });
 }

@@ -37,7 +37,6 @@
       color:rgb(35,50,75);
       text-decoration: none;
       &:hover {
-        transform: scale(1.1);
         color:rgb(214,26,13);
         border-bottom: 2px solid rgb(35,50,75);
       }

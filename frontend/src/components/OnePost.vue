@@ -11,6 +11,8 @@
           <div class="post__infos__title">
             <em>{{ post.title }}</em>
           </div>
+
+          <button v-if="user.admin == 1 || userId == post.userId" @click.prevent="deletePost(post._id)" class="post__infos__delete">Delete</button>
         </div>
 
         <div class="post__img">
@@ -21,10 +23,11 @@
           {{ post.content }}
         </div>
 
-        <div class="post__btn">
-          <button v-if="user.admin == 1 || userId == post.userId" @click.prevent="deletePost(post._id)" class="post__btn__delete">Delete</button>
-          <button v-if="userId == post.userId" @click.prevent="updatePost" class="post__btn__update">Update</button>
-        </div>
+        <form class="post__update">
+          <input type="text" class="post__update__title" v-model="updateTitle" placeholder="Title">
+          <input type="text" class="post__update__content" v-model="updateContent" placeholder="Content">
+          <button @click.prevent="updatePost" class="post__update__btn">Update</button>
+        </form>
         
         <form class="post__comment">
           <label for="content"></label>
@@ -58,6 +61,8 @@
         imagePreview: null,
         postId: localStorage.getItem("postId"),
         content: "",
+        updateTitle: "",
+        updateContent: "",
       }
     },
     async created() {
@@ -131,6 +136,30 @@
             })
         }
       },
+
+      updatePost() {
+        const payload = {
+          title:this.updateTitle,
+          content:this.updateContent
+        }
+
+        if(this.updateContent != "" && this.updateTitle != "")  
+        axios
+            .put(`http://localhost:3000/api/posts/${this.postId}`, payload, {
+              headers: {
+                "Authorization": `Bearer ${this.token}`,
+                "Content-Type": "application/json",
+              },
+            })
+            .then(() => {
+              console.log(payload);
+              alert("Your post is update !");
+              location.reload(); 
+            })
+            .catch((error) => {
+              (error);
+            })
+      }
     }
   }
 </script>
@@ -170,10 +199,26 @@
           color:rgb(214,26,13);
         }
         &__title {
-          width:80%;
+          width:65%;
           font-weight:bold;
           color:rgb(35,50,75);
         }
+              &__delete {
+        width:10%;
+        height:80%;
+        border-radius:20px;
+        border:none;
+        font-size:14px;
+        font-weight:bolder;
+        background-color: rgb(214,26,13);
+        color:white;
+        &:hover {
+          cursor:pointer;
+          color:rgb(214,26,13);
+          background-color:rgba(35,50,75, 0.1);
+          border:2px solid rgb(214,26,13);
+        }
+      }
       }
       &__img {
         width:15%;
@@ -198,44 +243,42 @@
         color:rgb(35,50,75);
         background-color:rgba(35,50,75, 0.1);
       }
-      &__btn {
-        width:100%;
-        margin:30px 0 30px 0;
-        display:flex;
-        align-items:center;
-        justify-content: space-around;
-        border-radius:20px;
-        &__delete {
-          width:30%;
-          height:40px;
+      &__update {
+       width:100%;
+       height:50px;
+       margin:20px 0 20px 0;
+       display:flex;
+       justify-content: space-around;
+       align-items:center;
+       &__title {
+          width:15%;
+          height:50%;
+          text-align:center;
+          color:rgb(35,50,75);
+       }
+       &__content {
+          width:50%;
+          height:60%;
+          text-align:center;
+          color:rgb(35,50,75);
+       }
+       &__btn {
+          width:15%;
+          height:50%;
           border-radius:20px;
           border:none;
-          font-size:18px;
-          background-color: rgb(214,26,13);
-          color:white;
-          &:hover {
-            cursor:pointer;
-            color:rgb(214,26,13);
-            background-color:rgba(35,50,75, 0.1);
-            border:2px solid rgb(214,26,13);
-          }
-        }
-        &__update {
-          width:30%;
-          height:40px;
-          border-radius:20px;
-          border:none;
-          font-size:18px;
           background-color:rgb(35,50,75);
           color:white;
           &:hover {
             cursor:pointer;
-            color:rgb(35,50,75);
             background-color:rgba(35,50,75, 0.1);
             border:2px solid rgb(35,50,75);
+            color:rgb(35,50,75);
           }
-        }
+          
+       }
       }
+      
       &__comment {
         padding:0;
         width:100%;

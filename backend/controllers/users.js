@@ -93,12 +93,8 @@ exports.getAllUsers = (req, res, next) => {
 
 // Update user
 exports.updateUser = (req,res,next) => {
-  dbConnection.query (
-    `UPDATE users 
-    SET firstname = 'firstname',
-        lastname = 'lastname'
-    WHERE _id = ${req.params.id}`,
-    (error, results) => {
+  dbConnection.query(
+    `UPDATE users SET firstname='${req.body.firstname}',lastname='${req.body.lastname}' WHERE _id = ${req.params.id}`, (error, results) => {
       if(error) {
         console.log(error);
         return res.status(400).json({ error });

@@ -21,17 +21,10 @@
     </div>
 
     <form class="update">
-      <div class="update__firstname">
-        <label for="firstname"></label>
-        <input type="text" class="update__firstname__input" v-model="firstname" id="firstname" placeholder="New first name">
-      </div>
-        
-      <div class="update__lastname">
-        <label for="lastname"></label>
-        <input type="text" class="update__lastname__input" v-model="lastname" id="lastname" placeholder="New last name">
-      </div>
+      <input type="text" class="update__firstname__input" v-model="updateFirstname" placeholder="New first name">
+      <input type="text" class="update__lastname__input" v-model="updateLastname" placeholder="New last name">
 
-      <button type="submit" @click.prevent="updateAccount" class="update__btn">Update</button>
+      <button @click.prevent="updateAccount" class="update__btn">Update</button>
     </form>
   </div>
 </template>
@@ -55,8 +48,8 @@
         },
         token: localStorage.getItem("token"),
         userId: localStorage.getItem("userId"),
-        firstname:"",
-        lastname:""
+        updateFirstname:"",
+        updateLastname:""
       };
     },
 
@@ -95,24 +88,20 @@
       },
 
       updateAccount() {
-        console.log(payload);
         const payload = {
-          firstname: this.firstname,
-          lastname:this.lastname
+          firstname: this.firstnameUpdate,
+          lastname:this.lastnameUpdate
         }
-        console.log(payload);
-        
         axios
           .put(`http://localhost:3000/api/auth/${this.userId}`, payload, {
             headers: {
               "Authorization": `Bearer ${this.token}`,
-              "Content-Type": "multipart/form-data"
+              "Content-Type": "application/json"
             },
           })
           .then(() => {
-            console.log({payload});
             alert("Your informations has changed");
-            //window.location.reload();
+            window.location.reload();
             
           })
           .catch((error) => {

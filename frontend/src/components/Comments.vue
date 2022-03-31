@@ -53,8 +53,6 @@ export default {
       })
       .then((response) => {
         this.comments = response.data;
-        console.log(response);
-        console.log(this.comments);
       })
       .catch((error) => {
         console.log(error);
