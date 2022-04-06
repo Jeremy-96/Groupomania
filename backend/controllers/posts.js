@@ -90,10 +90,9 @@ exports.updatePost = (req, res, next) => {
  * Controller for delete post
  */
 exports.deletePost = (req, res, next) => {
-  const imageUrl = dbConnection.query(`SELECT imageUrl FROM posts WHERE _id = ${req.params.id}`);
-  const filename = imageUrl.split('/images/')[1];
   
-  fs.unlink(`images/${filename}`, () => {
+  
+  
     dbConnection.query(
       `DELETE FROM posts WHERE _id = ${req.params.id}`, (error, results) => {
         if(error) {
@@ -107,5 +106,5 @@ exports.deletePost = (req, res, next) => {
         return res.status(200).json(results);
       }
     )
-  });
+
 }

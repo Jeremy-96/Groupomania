@@ -1,10 +1,13 @@
 <template>
   <form class="addPost">
     <input v-model="title" class="addPost__title" placeholder="Title">
-    <input id="addPost__img" name="image" type="file" @change="onSelectedFile" accept="image/*" class="addPost__img">
+    <input name="image" type="file" @change="onSelectedFile" accept="image/*" class="addPost__img">
     <input type="text" v-model="content" class="addPost__text" placeholder="Type your text" required>
 
-    <button @click.prevent="addpost" class="addPost__btn" type="submit">Add post</button>
+    <button @click.prevent="addpost" class="addPost__btn" type="submit">
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--ri" width="28" height="28" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M2 5.5V3.993A1 1 0 0 1 2.992 3h18.016c.548 0 .992.445.992.993v16.014a1 1 0 0 1-.992.993H2.992A.993.993 0 0 1 2 20.007V19h18V7.3l-8 7.2l-10-9zM0 10h5v2H0v-2zm0 5h8v2H0v-2z"></path></svg>
+      <p>Post</p>
+    </button>
 
   </form>
 </template>
@@ -61,23 +64,23 @@
 </script>
 
 
-<style lang="scss">
+<style scoped lang="scss">
   .addPost {
     width:100%;
     height:auto;
-    margin:50px 0 50px 0;
+    margin:100px 0 100px 0;
     display:flex;
     flex-flow: row wrap;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     &__title {
-      width:100%;
-      height:30px;
-      margin-bottom: 20px;
+      width:90%;
+      height:50px;
       text-align: center;
-      border-radius:20px;
-      border:2px solid rgb(35,50,75);
-      background-color:rgba(208, 208, 208, 0.01);
+      border-radius:20px 20px 0 0;
+      border:none;
+      border-bottom:2px solid rgb(35,50,75);
+      background-color: rgba(214,26,13, 0.2);
       &:focus {
         outline-color:rgb(214,26,13);
       }
@@ -89,13 +92,15 @@
       }
     }
     &__img {
-      width:15%;
-      height:100px;
-      text-align:center;
-      border-radius:20px;
-      border:2px solid rgb(35,50,75);
+      width:14.8%;
+      height:52px;
+      display:flex;
+      align-items:center;
+      justify-content: center;
+      border-radius:0 0 0 20px ;
+      border:none;
       color:rgb(35,50,75);
-      background-color:rgba(214,26,13, 0.2);
+      background-color: rgba(214,26,13, 0.2);
       &:focus {
         outline-color:rgb(214,26,13);
       }
@@ -107,12 +112,13 @@
       }
     }
     &__text {
-      width:70%;
-      height:100px;
+      width:60%;
+      height:50px;
       text-align:center;
-      border-radius:20px;
-      border:2px solid rgb(35,50,75);
-      background-color:rgba(208, 208, 208, 0.01);
+      border:none;
+      border-left:2px solid rgb(35,50,75);
+      border-right:2px solid rgb(35,50,75);
+      background-color:rgba(214,26,13, 0.2);
       &:focus {
         outline-color:rgb(214,26,13);
       }
@@ -124,18 +130,61 @@
       }
     }
     &__btn {
-      cursor:pointer;
-      height:100px;
-      border:2px solid rgb(35,50,75);
-      border-radius:20px;
-      font-size:18px;
+      padding:0;
+      width:15%;
+      height:52px;
+      display:flex;
+      align-items:center;
+      justify-content: center;
+      border:none;
+      border-radius:0 0 20px 0;
+      font-size:16px;
       font-weight:bold;
       color:rgb(208, 208, 208);
       background-color:rgb(35,50,75);
+      svg {
+        margin-right:10px;
+      }
       &:hover {
+        cursor:pointer;
         background-color: rgba(214,26,13, 0.2);
         color:rgb(35,50,75);
       }
     }
   }
+  @media screen and (max-width:768px) {
+    .addPost {
+      margin:80px 0 80px 0;
+      &__title {
+        margin:0;
+      }
+      &__img {
+        width:30%;
+        border-radius:0;
+      }
+      &__text {
+        border-right:0;
+      }
+      &__btn {
+        width:90.8%;
+        border-radius:0 0 20px 20px ;
+        padding:0;
+        svg {
+          width:26px;
+          height:26px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width:375px) {
+    .addPost {
+      &__btn {
+        p {
+          display:none;
+        }
+      }
+    }
+  }
+    
+
 </style>
