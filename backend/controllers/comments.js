@@ -4,6 +4,7 @@ const Post = require('../models/Post');
 const User = require('../models/User');
 const fs = require('fs');
 
+
 /**
  * Create comment
  */
@@ -14,7 +15,6 @@ exports.createComment = (req, res, next) => {
   dbConnection.query(
     `INSERT INTO comments SET ?`, comment, (error, results) => {
       if(error) {
-        console.log(error);
         return res.status(400).json({ error });
       }
       console.log("Comment created");
@@ -30,7 +30,6 @@ exports.getComment = (req, res, next) => {
   dbConnection.query(
     `SELECT * FROM comments`, (error, results) => {
       if(error) {
-        console.log(error);
         return res.status(404).json(error);
       }
       console.log(results);
@@ -46,7 +45,6 @@ exports.deleteComment = (req, res, next) => {
   dbConnection.query(
     `DELETE FROM comments WHERE _id = ${req.params.id}`, (error, results) => {
       if(error) {
-        console.log(error);
         return res.status(400).jsons(error);
       }
       console.log("This comment as deleted");

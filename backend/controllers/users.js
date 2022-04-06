@@ -1,16 +1,12 @@
-/**
- * Set the users controllers
- * Signup
- * Login
- * Get one user
- * Delete user account
- */
 const dbConnection = require('../db_connect');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// Signup
+
+/**
+ * Signup
+ */
 exports.signup = (req, res, next) => {
   const { firstname, lastname, email, password, admin } = req.body;
   bcrypt
@@ -33,7 +29,9 @@ exports.signup = (req, res, next) => {
 }
 
 
-// Login
+/**
+ * Login
+ */
 exports.login = (req, res, next) => {
   const { email, password, admin } = req.body;
   dbConnection.query(
@@ -67,7 +65,9 @@ exports.login = (req, res, next) => {
   )
 }
 
-// Get one user 
+/**
+ * Get one user
+ */ 
 exports.getOneUser = (req, res, next) => {
   dbConnection.query(
     `SELECT * FROM users WHERE _id = ${req.params.id}`, (error, results) => {
@@ -79,7 +79,9 @@ exports.getOneUser = (req, res, next) => {
   )
 }
 
-// Get all users
+/**
+ * Get all users
+ */
 exports.getAllUsers = (req, res, next) => {
   dbConnection.query(
     `SELECT * FROM users`, (error, results) => {
@@ -91,21 +93,9 @@ exports.getAllUsers = (req, res, next) => {
   )
 };
 
-// Update user
-exports.updateUser = (req,res,next) => {
-  dbConnection.query(
-    `UPDATE users SET firstname='${req.body.firstname}',lastname='${req.body.lastname}' WHERE _id = ${req.params.id}`, (error, results) => {
-      if(error) {
-        console.log(error);
-        return res.status(400).json({ error });
-      }
-      console.log("Your informations has changed");
-      return res.status(201).json(results);
-    }
-  )
-};
-
-// Delete user account
+/**
+ * Delete user account
+ */
 exports.deleteUser = (req, res, next) => {
   dbConnection.query(
     `DELETE FROM users WHERE _id = ${req.params.id}`, (error, results) => {
