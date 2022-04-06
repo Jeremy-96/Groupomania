@@ -45,17 +45,20 @@
   .navbar{
     width:100%;
     height:auto;
-    margin:0 0 50px 0;
     display:flex;
     justify-content: space-around;
     align-items:center;
     border-radius:0 0 20px 20px;
     box-shadow: 0 0 0.5rem rgb(0 0 0 / 25%);
-    position: relative;
-    z-index: 1000;
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:9999;
+    background-color:white;
     &__img {
       width:30%;
-      height:90%;
+      height:90px;
     }
     nav{
       height:100px;
@@ -104,7 +107,7 @@
     .navbar {
       &__img {
         width:40%;
-        height:80%;
+        //height:80%;
       }
       nav {
         width:40%;
@@ -131,11 +134,11 @@
       flex-direction: column;
       &__img {
         width:70%;
-        margin:30px 0 30px 0;
+        margin:0 0 0 0;
       }
       nav {
         width:90%;
-        height:75px;
+        height:50px;
         justify-content: space-around;
       }
     }

@@ -1,5 +1,6 @@
 <template>
   <div class="bloc">
+    <h2>All users</h2>
     <div v-for="(user, i) in users" :key="i" id="users" class="users">
        <article class="user">
          <div class="user__id">

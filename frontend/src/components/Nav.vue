@@ -26,11 +26,15 @@
     align-items:center;
     border-radius:0 0 20px 20px;
     box-shadow: 0 0 0.5rem rgb(0 0 0 / 25%);
-    position: relative;
-    z-index: 1000;
+    z-index: 9999;
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    background-color:white;
     &__img {
       width:30%;
-      height:90%;
+      height:90px;
     }
     &__link {
       width:60%;
@@ -55,7 +59,6 @@
     .nav {
       &__img {
         width:40%;
-        height:80%;
       }
       &__link {
         width:40%;
@@ -75,12 +78,11 @@
       flex-direction:column;
       &__img {
         width:70%;
-        margin:30px 0 30px 0;
       }
       &__link {
         justify-content: center;
         width:90%;
-        height:75px;
+        height:50px;
       }
     }
   }

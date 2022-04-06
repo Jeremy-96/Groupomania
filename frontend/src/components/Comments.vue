@@ -1,9 +1,9 @@
 <template>
   <div class="bloc">
-    <h2 class="title">
+    <h3 class="title">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--codicon" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" fill-rule="evenodd" d="m4 11.29l1-1v1.42l-1.15 1.14L3 12.5V10H1.5L1 9.5v-8l.5-.5h12l.5.5V6h-1V2H2v7h1.5l.5.5v1.79zM10.29 13l1.86 1.85l.85-.35V13h1.5l.5-.5v-5l-.5-.5h-8l-.5.5v5l.5.5h3.79zm.21-1H7V8h7v4h-1.5l-.5.5v.79l-1.15-1.14l-.35-.15z" clip-rule="evenodd"></path></svg>
       Comments
-    </h2>
+    </h3>
   
     <div class="comments" v-for="(comment, commentKey) in comments" :key="commentKey">
       <div class="comment" v-if="comment.postId == postId">
@@ -101,12 +101,9 @@ export default {
       display:flex;
       align-items:center;
       justify-content: center;
-      text-align:center;
       color:rgb(35,50,75);
       border-radius:20px;
       box-shadow: 0 0 0.5rem rgb(0 0 0 / 25%);
-      position: relative;
-      z-index: 1000;
       svg {
         width:30px;
         height:30px;

@@ -1,5 +1,6 @@
 <template>
   <div class="bloc">
+    <h2>My profil</h2>
     <div id="users" class="users">
        <article class="user">
         <div class="user__infos">
@@ -95,6 +96,9 @@
     justify-content: center;
     flex-direction:column;
     align-items:center;
+    h2 {
+      color:rgb(35,50,75);
+    }
     .users {
       width:90%;
       height:auto;
@@ -113,8 +117,6 @@
           text-align:center;
           width:50%;
           box-shadow: 0 0 0.5rem rgb(214 26 13 / 75%);
-          position: relative;
-          z-index: 1000;
           border-radius:10px;
         }
         &__infos {

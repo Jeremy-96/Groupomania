@@ -1,7 +1,7 @@
 <template>
-  <div class="footer">
+  <footer class="footer">
     <h4 class="footer__copy">
-      Groupomania © 2022. All right reserved.
+      Groupomania © 2022. 
     </h4>
 
     <a href="mailto:groupomania.admin@hotmail.com" class="footer__contact">
@@ -9,7 +9,7 @@
       <p>Email</p>
     </a>
     
-  </div>
+  </footer>
 </template>
 
 
@@ -25,16 +25,20 @@
   .footer {
     width:100%;
     height:auto;
-    margin:30px 0 0 0;
     display:flex;
     justify-content: space-around;
     align-items:center;
     border-radius:20px 20px 0 0;
     box-shadow: 0 0 0.5rem rgb(0 0 0 / 25%);
-    position: relative;
-    z-index: 1000;
+    z-index:1000;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background-color:white;
+    
     &__copy {
-      color:rgb(214,26,13);
+      color:rgb(35,50,75);
       width:70%;
     }
     &__contact {
