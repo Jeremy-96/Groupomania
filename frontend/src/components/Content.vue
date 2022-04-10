@@ -4,16 +4,31 @@
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--ri" width="32" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M16.8 19L14 22.5L11.2 19H6a1 1 0 0 1-1-1V7.103a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1h-5.2zM2 2h17v2H3v11H1V3a1 1 0 0 1 1-1z"></path></svg>
       Posts
     </h2>
-
+    
     <div v-for="(post,key) of posts" :key="key" class="posts" id="posts">
       <article class="post">
         <div class="post__infos">
           <h3 class="post__infos__id">
-            {{ post._id }} 
+            {{ getName(post._id) }} 
           </h3>
           <h3 class="post__infos__title">
-            <em>{{ post.title }} </em>
+            <em> {{ post.title }} </em>
           </h3>
+
+          <div v-if="myFilter(post._id).length > 0" class="post__infos__btn">
+            <button @click.prevent="likePost(post._id)" class="post__infos__btn__like">
+              <svg  style="color:rgb(9, 180, 0)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--fluent" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M15.056 9.004c.46-1.427.693-2.677.693-3.754c0-2.398-.939-4.247-2.5-4.247c-.847 0-1.109.504-1.437 1.747c.018-.065-.163.634-.215.821c-.101.359-.277.97-.527 1.831a.247.247 0 0 1-.03.065L8.174 9.953a5.885 5.885 0 0 1-2.855 2.326l-1.257.482a1.75 1.75 0 0 0-1.092 1.967l.686 3.539a2.25 2.25 0 0 0 1.673 1.757l8.25 2.022a4.75 4.75 0 0 0 5.733-3.44l1.574-6.173a2.75 2.75 0 0 0-2.665-3.43h-3.165Z"></path></svg>
+              <span>{{ getLikes(post._id) }}</span>
+            </button>
+          </div>
+
+          <div v-else class="post__infos__btn">
+            <button @click.prevent="likePost(post._id)" class="post__infos__btn__like">
+              <svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--fluent" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M15.056 9.004c.46-1.427.693-2.677.693-3.754c0-2.398-.939-4.247-2.5-4.247c-.847 0-1.109.504-1.437 1.747c.018-.065-.163.634-.215.821c-.101.359-.277.97-.527 1.831a.247.247 0 0 1-.03.065L8.174 9.953a5.885 5.885 0 0 1-2.855 2.326l-1.257.482a1.75 1.75 0 0 0-1.092 1.967l.686 3.539a2.25 2.25 0 0 0 1.673 1.757l8.25 2.022a4.75 4.75 0 0 0 5.733-3.44l1.574-6.173a2.75 2.75 0 0 0-2.665-3.43h-3.165Z"></path></svg>
+              <span>{{ getLikes(post._id) }}</span>
+            </button>
+          </div>
+
         </div>
 
         <div v-if="post.imageUrl" class="post__img">
@@ -44,7 +59,6 @@
         userId: localStorage.getItem("userId"),
         imagePreview: null,
         users:[],
-        replaceUsers:[],
         user: {
           id: localStorage.getItem("userId"),
           admin: localStorage.getItem("admin"),
@@ -54,8 +68,11 @@
         post: {},
         postId: "",
         content:"",
+        reaction:"",
+        reactions:[],
       }
     },
+    
     async created() {
         await axios
           .get(`http://localhost:3000/api/posts`,{
@@ -81,7 +98,20 @@
           })
           .then((response) => {
             this.users = response.data;
-            console.log(this.user)
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+        
+        await axios
+          .get(`http://localhost:3000/api/reactions`, {
+            headers: {
+              "Authorization": `Bearer ${this.user.token}`,
+              "Content-Type": "application/json"
+            }
+          })
+          .then((response) => {
+            this.reactions = response.data;
           })
           .catch((error) => {
             console.log(error);
@@ -91,7 +121,68 @@
       getThePost(idPost) {
         localStorage.setItem("postId", idPost);
         this.$router.push("/comment");
-      }
+      },
+
+      likePost(idPost) {
+        const payload = {
+          postId:idPost,
+          userId:parseInt(this.userId),
+          reaction:"",
+        }
+        axios
+          .post(`http://localhost:3000/api/reactions/${idPost}`, payload, {
+            headers: {
+              "Authorization": `Bearer ${this.user.token}`,
+              "Content-Type": "application/json",
+            }
+          })
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      },
+
+      getName(idPost){
+        let name = "";
+        let id = "";
+        for(let i = 0 ; i < this.posts.length ; i++) {
+          if(this.posts[i]._id == idPost) {
+            id = this.posts[i].userId;
+          }
+        }
+        for(let i = 0 ; i < this.users.length ; i++) {
+          if(id == this.users[i]._id) {
+            name = this.users[i].firstname + ' ' + this.users[i].lastname;
+            return name;
+          }
+        }
+      },
+
+      myFilter(idPost){
+        let filterReaction = [];
+        for(let i = 0 ; i < this.reactions.length ; i++) {
+          let react = this.reactions[i];
+          
+          if(react.userId == this.userId && react.postId == idPost) {
+            filterReaction.push(react);
+          }
+        }
+        return filterReaction;
+      },
+
+      getLikes(idPost){
+        let filterReaction = [];
+        for(let i = 0 ; i < this.reactions.length ; i++) {
+          let react = this.reactions[i];
+          
+          if(react.postId == idPost) {
+            filterReaction.push(react);
+          }
+        }
+        return filterReaction.length;
+      },
     }
   }
 
@@ -148,14 +239,35 @@
         justify-content: space-around;
         background-color:rgba(35,50,75, 0.1);
         &__id {
-          width:20%;
+          width:50%;
           text-align:center;
           color:rgb(214,26,13);
         }
         &__title {
-          width:80%;
+          width:40%;
           margin-left:50px;
           color:rgb(35,50,75);
+        }
+        &__btn {
+          width:10%;
+          display:flex;
+          align-items:center;
+          justify-content: space-around;
+          &__like {
+          border:none;
+          background-color:rgba(35,50,75, 0.01);
+            svg {
+              width:24px;
+              height:24px;
+              color:rgb(35,50,75);
+            }
+            &:hover {
+              cursor:pointer;
+              svg {
+                color:rgb(9, 180, 0);
+              }
+            }
+          }
         }
       }
       &__img {
@@ -213,11 +325,7 @@
       .post {
         flex-direction:column;
         &__infos {
-          &__id {
-            width:30%;
-          }
           &__title {
-            width:70%;
             margin:0;
           }
         }

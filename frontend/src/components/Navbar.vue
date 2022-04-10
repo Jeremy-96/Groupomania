@@ -58,7 +58,6 @@
     background-color:white;
     &__img {
       width:30%;
-      height:90px;
     }
     nav{
       height:100px;
@@ -139,6 +138,7 @@
       nav {
         width:90%;
         height:50px;
+        margin-top:20px;
         justify-content: space-around;
       }
     }

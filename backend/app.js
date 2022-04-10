@@ -5,18 +5,14 @@ const bodyparser = require('body-parser');
 const path = require('path');
 const nocache = require('nocache');
 
-
 const userRoutes = require('./routes/users');
 const postsRoutes = require('./routes/posts');
-const commentsRoutes = require('./routes/comments')
-
-
+const commentsRoutes = require('./routes/comments');
+const reactionsRoutes = require('./routes/reactions');
 
 const dbConnection = require('./db_connect');
 
-
 const app = express();
-
 
 /**
  * Setting up the CORS (Cross-origin-resource-sharing)
@@ -61,13 +57,12 @@ app.use(cors());
  helmet.hsts(),
  );
  
- 
-
 
  app.use('/images', express.static(path.join(__dirname, 'images')));
  app.use('/api/auth', userRoutes);
  app.use('/api/posts', postsRoutes);
  app.use('/api/comments', commentsRoutes);
+ app.use('/api/reactions', reactionsRoutes);
 
  
 module.exports = app;

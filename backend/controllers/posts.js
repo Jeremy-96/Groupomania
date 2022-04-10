@@ -3,20 +3,20 @@ const Post = require('../models/Post');
 const User = require('../models/User');
 const fs = require('fs');
 
-
 /**
  * Controller for object creation
  */
  exports.createPost = (req, res, next) => {
-  const { userId, title, content } = req.body;
+  const { userId, title, content, likes, usersLiked, dislikes, usersDisliked } = req.body;
   
   if(req.file) {
     const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    const post = new Post(userId, title, imageUrl, content);
+    const post = new Post(userId, title, imageUrl, content, likes, usersLiked, dislikes, usersDisliked);
     dbConnection.query (
       'INSERT INTO posts SET ?', post, (error, results) => {
         if(error) {
           res.status(400).json({ error });
+          console.log(error)
         }else {
           res.status(201).json({ message: 'Registered item !'  })
         }
@@ -24,7 +24,7 @@ const fs = require('fs');
     )
   }else {
     const imageUrl = "" ;
-    const post = new Post(userId, title, imageUrl, content);
+    const post = new Post(userId, title, imageUrl, content, likes, usersLiked, dislikes, usersDisliked);
     dbConnection.query (
       'INSERT INTO posts SET ?', post, (error, results) => {
         if(error) {

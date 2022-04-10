@@ -135,7 +135,6 @@
             .then(() => {
               alert("This post has commented");
               window.location.reload();
-              console.log(payload);
             })
             .catch((error) => {
               console.log(error);
@@ -158,7 +157,6 @@
               },
             })
             .then(() => {
-              console.log(payload);
               alert("Your post is update !");
               location.reload(); 
             })

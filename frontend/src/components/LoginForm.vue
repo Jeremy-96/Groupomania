@@ -7,16 +7,16 @@
       <form class="login__form"> 
 
         <div class="login__form__input">
-          <label for="email"></label>
+          <label for="email">Email:</label>
           <input type="text" v-model="email" id="email" placeholder="Email" required>
         </div>
 
         <div class="login__form__input">
-          <label for="password"></label>
+          <label for="password">Password</label>
           <input type="password" v-model="password" id="password" placeholder="Password" required>
         </div>
 
-        <button class="login__form__btn" @click.prevent="login" type="submit" accesskey="enter">Connect</button>
+        <button class="login__form__btn" @click.prevent="login" type="submit">Connect</button>
 
         <div v-if="error" role="alert" class="login__form__alert">
           <em> {{ error  }} </em>
@@ -90,7 +90,7 @@
       z-index: 1000;
       &__img {
         width:90%;
-        height:30%;
+       
       }
       &__form {
         width:90%;
@@ -99,6 +99,9 @@
         flex-flow:column wrap;
         align-items:center;
         justify-content:space-between;
+        label {
+          display:none;
+        }
         &__input {
           width:100%;
           height:12.5%;
@@ -176,10 +179,7 @@
   @media screen and (max-width:768px) {
     .login {
       border:0;
-      &__img {
-         width:80%;
-         height:25%;
-       }
+      
        &__form {
          height:55%;
        }
@@ -188,10 +188,6 @@
   @media screen and (max-width:375px) {
     .login {
       height:700px;
-      &__img {
-        width:70%;
-        height:20%;
-      }
       &__form {
         height:60%;
         &__input {

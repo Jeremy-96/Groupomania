@@ -3,7 +3,6 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-
 /**
  * Signup
  */
@@ -27,7 +26,6 @@ exports.signup = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 }
-
 
 /**
  * Login

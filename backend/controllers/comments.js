@@ -1,9 +1,5 @@
 const dbConnection = require('../db_connect');
 const Comment = require('../models/Comment');
-const Post = require('../models/Post');
-const User = require('../models/User');
-const fs = require('fs');
-
 
 /**
  * Create comment
@@ -21,7 +17,7 @@ exports.createComment = (req, res, next) => {
       return res.status(201).json(results);
     }
   )
-}
+};
 
 /**
  * Get comment
@@ -32,11 +28,10 @@ exports.getComment = (req, res, next) => {
       if(error) {
         return res.status(404).json(error);
       }
-      console.log(results);
       return res.status(200).json(results);
     }
   )
-}
+};
 
 /**
  * Delete comment
@@ -51,4 +46,4 @@ exports.deleteComment = (req, res, next) => {
       return res.status(200).json(results);
     }
   )
-}
+};

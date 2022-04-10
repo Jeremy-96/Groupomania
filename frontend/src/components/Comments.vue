@@ -73,8 +73,7 @@ export default {
             "Content-Type": 'application/json',
           }
         })
-        .then((response) => {
-          console.log(response);
+        .then(() => {
           alert(`Comment with id: ${commentId} as deleted`);
           window.location.reload();
           

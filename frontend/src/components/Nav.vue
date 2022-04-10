@@ -34,7 +34,6 @@
     background-color:white;
     &__img {
       width:30%;
-      height:90px;
     }
     &__link {
       width:60%;
@@ -83,6 +82,7 @@
         justify-content: center;
         width:90%;
         height:50px;
+        margin-top:20px;
       }
     }
   }
