@@ -10,45 +10,81 @@ Le client en question est Groupomania, un groupe spécialisé dans la grande dis
 
 ## Les technologies utilisées :
 
-*HTML*
+- *HTML*
 
-*CSS*
+- *CSS*
 
-*Javascript*
+- *Javascript*
 
-*Vue.Js*
+- *Vue.Js*
 
-*Node.Js*
+- *Node.Js*
 
-*Express.Js*
+- *Express.Js*
 
-*MYSQL*
+- *MYSQL*
 
-*SQL*
+- *SQL*
 
 ## Setup
 
-### Prérequis :
+Ce projet nécessite d'installer plusieurs packages.
 
-Installation de Vue CLI, Node.Js, Mysql. 
+Voici les étapes à suivre :
 
-Cloner ce repository.
+#### **Node.Js**
+
+https://nodejs.org/en/download/
+
+#### **Vue CLI**
+```
+npm install -g @vue/cli
+# OR
+yarn global add @vue/cli
+```
+
+#### **MySQL**
+
+https://www.mysql.com/fr/downloads/
+
+#### **Clone repository**
+
+```
+git clone https://github.com/Jeremy-96/Groupomania.git
+```
 
 ### Frontend :
 
-Utiliser la commande 'cd frontend'.
+Utiliser les commandes suivantes : 
 
-npm install.
+```
+cd frontend
+```
 
-npm run serve.
+```
+npm install
+```
+
+```
+npm run serve
+```
+
 
 ### Backend :
 
-cd backend.
+Utiliser les commandes suivantes : 
 
-npm install.
+```
+cd backend
+```
 
-nodemon server.
+```
+npm install
+```
+
+```
+nodemon server
+```
 
 **Ajouter dans le dossier backend, un fichier .env avec les variables suivantes :**
 
