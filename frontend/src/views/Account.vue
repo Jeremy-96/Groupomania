@@ -6,7 +6,6 @@
   </div>
 </template>
 
-
 <script>
   import Nav from '@/components/Nav.vue'
   import Profil from '@/components/Profil.vue'

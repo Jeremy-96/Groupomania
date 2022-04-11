@@ -49,20 +49,18 @@ app.use(cors());
  * CSP 
  * Hsts(Strict-Transport-Security)
  */
- app.use(helmet.hidePoweredBy(),
- helmet.xssFilter(),
- helmet.frameguard({ action: 'deny' }),
- helmet.noSniff(),
- helmet.contentSecurityPolicy(),
- helmet.hsts(),
- );
+app.use(helmet.hidePoweredBy(),
+    helmet.xssFilter(),
+    helmet.frameguard({ action: 'deny' }),
+    helmet.noSniff(),
+    helmet.contentSecurityPolicy(),
+    helmet.hsts(),
+);
  
-
- app.use('/images', express.static(path.join(__dirname, 'images')));
- app.use('/api/auth', userRoutes);
- app.use('/api/posts', postsRoutes);
- app.use('/api/comments', commentsRoutes);
- app.use('/api/reactions', reactionsRoutes);
-
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/api/auth', userRoutes);
+app.use('/api/posts', postsRoutes);
+app.use('/api/comments', commentsRoutes);
+app.use('/api/reactions', reactionsRoutes);
  
 module.exports = app;

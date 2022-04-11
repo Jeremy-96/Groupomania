@@ -3,7 +3,9 @@
  */
  const passwordValidator = require('password-validator');
 
- // Create a schema :
+/**
+ * Create password schema
+ */ 
  const passwordSchema = new passwordValidator();
  
  passwordSchema

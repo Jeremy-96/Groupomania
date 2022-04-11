@@ -4,7 +4,6 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-
 const userCtrl = require('../controllers/users');
 const passwordValidator = require('../middleware/passwordVal');
 

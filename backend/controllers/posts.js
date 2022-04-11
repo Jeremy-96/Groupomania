@@ -4,11 +4,10 @@ const User = require('../models/User');
 const fs = require('fs');
 
 /**
- * Controller for object creation
+ * Create post
  */
  exports.createPost = (req, res, next) => {
   const { userId, title, content, likes, usersLiked, dislikes, usersDisliked } = req.body;
-  
   if(req.file) {
     const imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     const post = new Post(userId, title, imageUrl, content, likes, usersLiked, dislikes, usersDisliked);
@@ -38,13 +37,13 @@ const fs = require('fs');
 };
 
 /**
- * Controller for get all posts
-*/
+ * Get all posts
+ */
 exports.getAllPosts = (req, res, next) => {
   dbConnection.query(
     `SELECT * FROM posts`, (error, results) => {
       if(error) {
-        return res.status(400).json({ error });
+        return res.status(404).json({ error });
       }
       res.status(200).json(results);
     }
@@ -52,13 +51,13 @@ exports.getAllPosts = (req, res, next) => {
 }
 
 /**
- * Controller for get one post with comment(s)
+ * Get one post
  */
 exports.getOnePost = (req, res, next) => {
   dbConnection.query(
     `SELECT * FROM posts WHERE _id = ${req.params.id}`, (error, results) => {
       if(error) {
-        return res.status(400).json(error);
+        return res.status(404).json(error);
       }
       return res.status(200).json(results);
     }
@@ -66,7 +65,7 @@ exports.getOnePost = (req, res, next) => {
 }
 
 /**
- * Controller for update post
+ * Update post
  */
 exports.updatePost = (req, res, next) => {
   dbConnection.query(
@@ -81,7 +80,7 @@ exports.updatePost = (req, res, next) => {
 }
 
 /**
- * Controller for delete post
+ * Delete post
  */
 exports.deletePost = (req, res, next) => {
   dbConnection.query(
@@ -100,6 +99,9 @@ exports.deletePost = (req, res, next) => {
               }
               dbConnection.query(
                 `DELETE FROM comments WHERE postId = ${req.params.id}`
+              )
+              dbConnection.query(
+                `DELETE FROM reactions WHERE postId = ${req.params.id}`
               )
               return res.status(200).json(results);
             }
