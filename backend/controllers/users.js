@@ -12,7 +12,6 @@ exports.signup = (req, res, next) => {
     .hash(req.body.password, 10)                                        
     .then((hash) => {
       const user = new User(firstname, lastname, email, hash, admin);
-      console.log(req.body);
       dbConnection.query(
         'INSERT INTO users SET ?', user, (error, results) => {
           if(error) {
@@ -100,6 +99,15 @@ exports.deleteUser = (req, res, next) => {
       if(error) {
         return res.status(400).json({ error });
       }
+      dbConnection.query(
+        `DELETE FROM posts WHERE userId = ${req.params.id}` 
+      )
+      dbConnection.query(
+        `DELETE FROM comments WHERE userId = ${req.params.id}`
+      )
+      dbConnection.query(
+        `DELETE FROM reactions WHERE userId = ${req.params.id}`
+      )
       console.log('User account successfully deleted !');
       return res.status(200).json(results);
     }

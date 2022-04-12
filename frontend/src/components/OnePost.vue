@@ -3,7 +3,7 @@
     <article v-for="(post, key) in posts" :key="key" class="post">
       <div class="post__infos">
         <div class="post__infos__id">
-          {{ post._id }} :
+          {{ getName(post._id) }} 
         </div>
 
         <div class="post__infos__title">
@@ -163,7 +163,23 @@
             .catch((error) => {
               (error);
             })
-      }
+      },
+
+      getName(idPost){
+        let name = "";
+        let id = "";
+        for(let i = 0 ; i < this.posts.length ; i++) {
+          if(this.posts[i]._id == idPost) {
+            id = this.posts[i].userId;
+          }
+        }
+        for(let i = 0 ; i < this.users.length ; i++) {
+          if(id == this.users[i]._id) {
+            name = this.users[i].firstname ;
+            return name;
+          }
+        }
+      },
     }
   }
 </script>

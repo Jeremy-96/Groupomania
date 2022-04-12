@@ -76,6 +76,7 @@
             .post('http://localhost:3000/api/auth/signup', payload)
             .then(() => {
               alert("Your account was created");
+              this.$router.push("/");
             })
             .catch(() => {
               (this.error = "Please fill in the fields !");
