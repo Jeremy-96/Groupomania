@@ -39,9 +39,6 @@
         imageUrl:"",
         imagePreview: null,
         content:"",
-        likes:"",
-        usersLiked:"",
-        dislikes:""
       }
     },
 
@@ -56,9 +53,6 @@
         formData.append('title', this.title);
         formData.append('image', this.imageUrl);
         formData.append('content', this.content);
-        formData.append('likes', this.likes);
-        formData.append('usersLiked', this.usersLiked);
-        formData.append('dislikes', this.dislikes);
 
         if(this.content != "" && this.title != "")  
         axios
