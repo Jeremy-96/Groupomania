@@ -92,7 +92,7 @@ nodemon server
 
 --> *DB_USER='root'*
 
---> *DB_PASSWORD='Jerem-bila96'*
+--> *DB_PASSWORD=''*
 
 --> *DB_PORT='8889'*
 
